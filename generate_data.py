@@ -45,7 +45,7 @@ def isna(x):
         return pd.isna(x)
 
 def read_survey_df():
-    new_df = pd.DataFrame(columns=["Lat", "Lon", "HarvestYear", "Source", "YieldTonHa"])
+    new_df = pd.DataFrame(columns=["Lat", "Lon", "HarvestYear", "Source", "YieldTonHa", "ExactLatLon"])
 
     for index, row in survey_df.iterrows():
         if not isna(row["YieldUsingGPS_ton_ha_"]):
@@ -61,10 +61,13 @@ def read_survey_df():
         if not isna(row["GPS_lat"]) and not isna(row["GPS_lon"]):# and validate_lat_lon(row["GPS_lat"], row["GPS_lon"], row["L0_GID"]):
             lat = row["GPS_lat"]
             lon = row["GPS_lon"]
+            exact_lat_lon = True
         elif not isna(row["L3_GID"]):
             lat, lon = get_adm_center(row["L3_GID"], 3)
+            exact_lat_lon = False
         elif not isna(row["L2_GID"]):
             lat, lon = get_adm_center(row["L2_GID"], 2)
+            exact_lat_lon = False
         else:
             continue
         '''elif not isna(row["L1_GID"]):
@@ -76,7 +79,8 @@ def read_survey_df():
                                 "Lon": lon,
                                 "HarvestYear": row["AgYearEnd"],
                                 "Source": row["Source"],
-                                "YieldTonHa": yield_ton_ha
+                                "YieldTonHa": yield_ton_ha,
+                                "ExactLatLon": exact_lat_lon
                                 }])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
     return new_df
@@ -93,10 +97,13 @@ def read_point_df():
         if not isna(row["Latitude"]) and not isna(row["Longitude"]):# and validate_lat_lon(row["Latitude"], row["Longitude"], row["L0_GID"]):
             lat = row["Latitude"]
             lon = row["Longitude"]
+            exact_lat_lon = True
         elif not isna(row["L3_GID"]):
             lat, lon = get_adm_center(row["L3_GID"], 3)
+            exact_lat_lon = False
         elif not isna(row["L2_GID"]):
             lat, lon = get_adm_center(row["L2_GID"], 2)
+            exact_lat_lon = False
         else:
             continue
         """elif not isna(row["L1_GID"]):
@@ -108,7 +115,9 @@ def read_point_df():
                                 "Lon": lon,
                                 "HarvestYear": row["HarvestYear"],
                                 "Source": row["Source"],
-                                "YieldTonHa": row["Yield_ton_ha_"]}])
+                                "YieldTonHa": row["Yield_ton_ha_"],
+                                "ExactLatLon": exact_lat_lon
+                                }])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
     return new_df
 
