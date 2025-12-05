@@ -86,7 +86,7 @@ def read_survey_df():
     return new_df
 
 def read_point_df():
-    new_df = pd.DataFrame(columns=["Lat", "Lon", "HarvestYear", "Source", "YieldTonHa"])
+    new_df = pd.DataFrame(columns=["Lat", "Lon", "HarvestYear", "Source", "YieldTonHa", "ExactLatLon"])
 
     for index, row in point_df.iterrows():
         # CEEPA_time_avg data points are averages over multiple years, so we don't want them
@@ -122,7 +122,7 @@ def read_point_df():
     return new_df
 
 def read_cropcut_df():
-    new_df = pd.DataFrame(columns=["Lat", "Lon", "HarvestYear", "Source", "YieldTonHa"])
+    new_df = pd.DataFrame(columns=["Lat", "Lon", "HarvestYear", "Source", "YieldTonHa", "ExactLatLon"])
 
     for index, row in cropcut_df.iterrows():
         new_row = pd.DataFrame([{"Lat": row["GPS_lat"],
