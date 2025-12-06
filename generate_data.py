@@ -29,13 +29,13 @@ def get_adm_center(id: str, adm_level: int):
     
     row = gdf[gdf['GID'] == id]
     center = row.geometry.iloc[0].centroid
-    return center.x, center.y
+    return center.y, center.x
 
 # check if given coordinates lies inside the given country
 def validate_lat_lon(lat, lon, l0_gid):
     row = l0_gdf[l0_gdf['GID'] == l0_gid]
     country_polygon = row.geometry.iloc[0]
-    return country_polygon.covers(Point(lat, lon))
+    return country_polygon.covers(Point(lon, lat))
 
 # '[]' needs to be counted as nan because of two stupid entries from uganda
 def isna(x):
@@ -58,7 +58,7 @@ def read_survey_df():
             yield_ton_ha = row["YieldEst2_ton_ha_"]
         
         # if there is no lat/lon given, use the center of the lowest-level administrative division given
-        if not isna(row["GPS_lat"]) and not isna(row["GPS_lon"]):# and validate_lat_lon(row["GPS_lat"], row["GPS_lon"], row["L0_GID"]):
+        if not isna(row["GPS_lat"]) and not isna(row["GPS_lon"]) and validate_lat_lon(row["GPS_lat"], row["GPS_lon"], row["L0_GID"]):
             lat = row["GPS_lat"]
             lon = row["GPS_lon"]
             exact_lat_lon = True
@@ -94,7 +94,7 @@ def read_point_df():
             continue
 
         # if there is no lat/lon given, use the center of the lowest-level administrative division given
-        if not isna(row["Latitude"]) and not isna(row["Longitude"]):# and validate_lat_lon(row["Latitude"], row["Longitude"], row["L0_GID"]):
+        if not isna(row["Latitude"]) and not isna(row["Longitude"]) and validate_lat_lon(row["Latitude"], row["Longitude"], row["L0_GID"]):
             lat = row["Latitude"]
             lon = row["Longitude"]
             exact_lat_lon = True
