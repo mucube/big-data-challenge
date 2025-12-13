@@ -10,4 +10,4 @@ df.drop(columns=["Source", "YieldTonHa"], inplace=True)
 unique_years = df['HarvestYear'].unique()
 for year in unique_years:
     annual_df = df[df['HarvestYear'] == year]
-    annual_df.to_csv(f'./annual_entries/{year}.csv')
+    annual_df.to_csv(f'./annual_entries/{year}.csv', index=False)
