@@ -1,3 +1,6 @@
 GROW-Africa-Database/
 .env
 ClimateAF_v1a/
+
+# LibreOffice locks
+.~lock.*#
