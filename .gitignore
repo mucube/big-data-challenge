@@ -4,3 +4,5 @@ ClimateAF_v1a/
 
 # LibreOffice locks
 .~lock.*#
+
+.vscode/
