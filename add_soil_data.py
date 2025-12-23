@@ -14,7 +14,7 @@ soc_image = ee.Image("ISDASOIL/Africa/v1/carbon_organic")
 
 df = pd.read_csv("./generated_data.csv")
 
-chunk_size = 200
+chunk_size = 500
 dfs = []
 for start in range(0, len(df), chunk_size):
     chunk_df = df.iloc[start:start + chunk_size]
@@ -45,6 +45,6 @@ for start in range(0, len(df), chunk_size):
 
 df_with_climate = pd.read_csv("./data_with_climate.csv")
 
-final_df = pd.concat(merged_df, ignore_index=True)
+final_df = pd.concat(dfs, ignore_index=True)
 final_df = pd.merge(final_df, df_with_climate, on='id', how='inner')
-final_df.to_csv("final_data.py")
+final_df.to_csv("final_data.csv", index=False)
