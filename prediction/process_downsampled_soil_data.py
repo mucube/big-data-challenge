@@ -1,0 +1,12 @@
+import pandas as pd
+
+df = pd.read_csv("./prediction/downsampled_soil_data_raw.csv")
+
+df.drop('system:index', axis='columns', inplace=True)
+
+# remove rows with no data
+df = df[df['OrganicCarbon_g_kg_0-20_m'].notna() & (df['OrganicCarbon_g_kg_0-20_m'] != "")]
+
+df['id'] = range(len(df))
+
+df.to_csv("./prediction/downsampled_soil_data.csv", index=False)

@@ -1,23 +1,36 @@
-# Downsample iSDAsoil data on to 0.5deg resolution grid
 import ee
 ee.Authenticate()
 ee.Initialize(project="data-481404")
 
-k_image = ee.Image("ISDASOIL/Africa/v1/potassium_extractable").select('mean_0_20')
-p_image = ee.Image("ISDASOIL/Africa/v1/phosphorus_extractable").select('mean_0_20')
-n_image = ee.Image("ISDASOIL/Africa/v1/nitrogen_total").select('mean_0_20')
-soc_image = ee.Image("ISDASOIL/Africa/v1/carbon_organic").select('mean_0_20')
+k_image = ee.Image("ISDASOIL/Africa/v1/potassium_extractable").select('mean_0_20').rename(['Potassium_g_kg_0-20_m'])
+p_image = ee.Image("ISDASOIL/Africa/v1/phosphorus_extractable").select('mean_0_20').rename(['Phosphorus_g_kg_0-20_m'])
+n_image = ee.Image("ISDASOIL/Africa/v1/nitrogen_total").select('mean_0_20').rename(['Nitrogen_g_kg_0-20_m'])
+soc_image = ee.Image("ISDASOIL/Africa/v1/carbon_organic").select('mean_0_20').rename(['OrganicCarbon_g_kg_0-20_m'])
 
-grid_proj = ee.Projection("EPSG:4326").atScale(50000)
+region = k_image.geometry()
+scale = 50000
 
-downsampled_k_image = k_image.reduceResolution(ee.Reducer.mean(), bestEffort=True).reproject(crs=grid_proj)
+grid_proj = ee.Projection("EPSG:4326").atScale(scale)
 
-task = ee.batch.Export.image.toDrive(
-    image=downsampled_k_image,
-    description="ISDAsoil_0_5deg",
-    scale=50000,
-    region=k_image.geometry(),
-    crs="EPSG:4326",
-    maxPixels=1e13
+combined_image = k_image
+
+for img in [p_image, n_image, soc_image]:
+    combined_image = combined_image.addBands(img)
+
+combined_image = combined_image.reproject(crs=grid_proj)
+
+pixel_fc = region.coveringGrid(grid_proj)
+
+# compute means of soil variables over each grid cell
+reduced = combined_image.reduceRegions(
+    collection=pixel_fc,
+    reducer=ee.Reducer.mean(),
+    crs=grid_proj
+)
+
+task = ee.batch.Export.table.toDrive(
+    collection=reduced,
+    description="downsampled_soil_data",
+    fileFormat="CSV"
 )
 task.start()
