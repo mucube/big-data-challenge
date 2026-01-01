@@ -5,6 +5,7 @@ df = pd.read_csv("./generated_data.csv")
 variables = [
     "MWMT",
     "MCMT",
+    "MAT",
     "MAP"
 ]
 

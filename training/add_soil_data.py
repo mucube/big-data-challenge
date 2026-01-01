@@ -46,5 +46,5 @@ for start in range(0, len(df), chunk_size):
 df_with_climate = pd.read_csv("./data_with_climate.csv")
 
 final_df = pd.concat(dfs, ignore_index=True)
-final_df = pd.merge(final_df, df_with_climate, on='id', how='inner')
+final_df = pd.merge(df_with_climate, final_df, on='id', how='inner')
 final_df.to_csv("final_data.csv", index=False)
