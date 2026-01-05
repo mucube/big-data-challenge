@@ -1,4 +1,5 @@
 import ee
+from climate_annual import *
 ee.Authenticate()
 ee.Initialize(project="data-481404")
 
@@ -12,9 +13,20 @@ scale = 50000
 
 grid_proj = ee.Projection("EPSG:4326").atScale(scale)
 
+years = [2030, 2040, 2050]
+scenarios = ["ssp245", "ssp585"]
+climate_images = []
+
+for year in years:
+    for scenario in scenarios:
+        climate_images.append(generate_mat_annual_image(year, scenario))
+        climate_images.append(generate_mwmt_annual_image(year, scenario))
+        climate_images.append(generate_mcmt_annual_image(year, scenario))
+        climate_images.append(generate_map_annual_image(year, scenario))
+
 combined_image = k_image
 
-for img in [p_image, n_image, soc_image]:
+for img in [p_image, n_image, soc_image] + climate_images:
     combined_image = combined_image.addBands(img)
 
 combined_image = combined_image.reproject(crs=grid_proj)

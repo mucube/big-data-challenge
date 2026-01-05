@@ -10,3 +10,6 @@ ClimateAF_v1a/
 
 spam*/
 dataverse*/
+
+.venv/
+__pycache__/
