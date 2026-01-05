@@ -80,18 +80,6 @@ def generate_mcmt_annual_image(year, scenario):
         .select(variable)
     )
 
-    # Build monthly mean images
-    def monthly_mean(month):
-        month = ee.Number(month)
-        start = ee.Date.fromYMD(year, month, 1)
-        end = start.advance(1, "month")
-
-        return (
-            ic.filterDate(start, end)
-              .mean()            # daily -> monthly mean
-              .set("month", month)
-        )
-
     months = ee.List.sequence(1, 12)
     monthly_ic = ee.ImageCollection(months.map(lambda x: monthly_mean(x, year, ic)))
 

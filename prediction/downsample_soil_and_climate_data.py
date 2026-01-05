@@ -42,7 +42,7 @@ reduced = combined_image.reduceRegions(
 
 task = ee.batch.Export.table.toDrive(
     collection=reduced,
-    description="downsampled_soil_data",
+    description="downsampled_soil_and_climate_data",
     fileFormat="CSV"
 )
 task.start()
