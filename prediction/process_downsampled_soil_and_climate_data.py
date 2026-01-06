@@ -15,10 +15,6 @@ def geometry_string_to_wkt_and_centroid(s: str) -> str:
     if s_clean.startswith("(") and s_clean.endswith(")"):
         s_clean = s_clean[1:-1]
 
-    # Replace JavaScript booleans with JSON booleans
-    # Note: For valid JSON, lowercase true/false must be lowercase
-    s_clean = s_clean.replace("false", "false").replace("true", "true")
-
     try:
         geojson_obj = json.loads(s_clean)
         geom = shape(geojson_obj)

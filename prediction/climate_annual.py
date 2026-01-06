@@ -1,11 +1,14 @@
 import ee
 
+model = 'EC-Earth3'
+
 def generate_mat_annual_image(year, scenario):
     dataset = "NASA/GDDP-CMIP6"
     variable = "tas" # Daily Near-Surface Air Temperature in Kelvin
     ic = (
         ee.ImageCollection(dataset)
         .filter(ee.Filter.eq("scenario", scenario))
+        .filter(ee.Filter.eq("model", model))
         .select(variable)
     )
     start = ee.Date.fromYMD(year, 1, 1)
@@ -48,6 +51,7 @@ def generate_mwmt_annual_image(year, scenario):
     ic = (
         ee.ImageCollection(dataset)
         .filter(ee.Filter.eq("scenario", scenario))
+        .filter(ee.Filter.eq("model", model))
         .select(variable)
     )
 
@@ -78,6 +82,7 @@ def generate_mcmt_annual_image(year, scenario):
     ic = (
         ee.ImageCollection(dataset)
         .filter(ee.Filter.eq("scenario", scenario))
+        .filter(ee.Filter.eq("model", model))
         .select(variable)
     )
 
@@ -108,6 +113,7 @@ def generate_map_annual_image(year, scenario):
     ic = (
         ee.ImageCollection(dataset)
         .filter(ee.Filter.eq("scenario", scenario))
+        .filter(ee.Filter.eq("model", model))
         .select(variable)
     )
 

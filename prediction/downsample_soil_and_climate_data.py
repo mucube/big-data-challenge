@@ -1,7 +1,7 @@
 import ee
-from climate_annual import *
 ee.Authenticate()
 ee.Initialize(project="data-481404")
+from climate_annual import *
 
 k_image = ee.Image("ISDASOIL/Africa/v1/potassium_extractable").select('mean_0_20').rename(['Potassium_g_kg_0-20_m'])
 p_image = ee.Image("ISDASOIL/Africa/v1/phosphorus_extractable").select('mean_0_20').rename(['Phosphorus_g_kg_0-20_m'])
