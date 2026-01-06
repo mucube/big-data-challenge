@@ -18,11 +18,11 @@ def generate_mat_annual_image(year, scenario):
           # average across models
           .reduce(ee.Reducer.mean())
           .rename(f"MAT_{year}_{scenario}")
+          .subtract(273.15) # convert kelvin to celsius
           .set({
             "year": year,
             "scenario": scenario,
-            "units": "K",
-            "definition": "Mean Warmest Month Temperature"
+            "units": "C",
         })
     )
 
@@ -60,10 +60,11 @@ def generate_mwmt_annual_image(year, scenario):
         .max()
         .reduce(ee.Reducer.mean())
         .rename(f"MWMT_{year}_{scenario}")
+        .subtract(273.15) # convert kelvin to celsius
         .set({
             "year": year,
             "scenario": scenario,
-            "units": "K",
+            "units": "C",
         })
     )
 
@@ -89,10 +90,11 @@ def generate_mcmt_annual_image(year, scenario):
         .min()
         .reduce(ee.Reducer.mean())
         .rename(f"MCMT_{year}_{scenario}")
+        .subtract(273.15) # convert kelvin to celsius
         .set({
             "year": year,
             "scenario": scenario,
-            "units": "K",
+            "units": "C",
         })
     )
 
