@@ -8,13 +8,14 @@ from sklearn.model_selection import HalvingGridSearchCV
 
 import pickle
 
-df = pd.read_csv("../training/final_data.csv")
+df = pd.read_csv("../training/final_data_with_spam_interpolated.csv")
 
 X = df[[
     "HarvestYear",
     "MWMT", "MCMT", "MAT", "MAP",
     "Potassium_g_kg_0-20_m", "Nitrogen_g_kg_0-20_m",
     "Phosphorus_g_kg_0-20_m", "OrganicCarbon_g_kg_0-20_m",
+    'Lat', 'Lon'
 ]]
 
 y = df["YieldTonHa"]
@@ -38,5 +39,5 @@ rf_cv = HalvingGridSearchCV(estimator=rf, param_grid=cv_params, scoring='r2', cv
 
 rf_cv.fit(X,y)
 
-with open("object.pkl", "wb") as f:
+with open("rf_loc_spam_cv.pkl", "wb") as f:
     pickle.dump(rf_cv, f)

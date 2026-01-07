@@ -13,3 +13,5 @@ dataverse*/
 
 .venv/
 __pycache__/
+
+*.pkl
