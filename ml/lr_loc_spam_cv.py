@@ -10,7 +10,7 @@ X = df[[
     "MWMT", "MCMT", "MAT", "MAP",
     "Potassium_g_kg_0-20_m", "Nitrogen_g_kg_0-20_m",
     "Phosphorus_g_kg_0-20_m", "OrganicCarbon_g_kg_0-20_m",
-    'interpolated_irr'
+    'interpolated_irr', 'Lat', 'Lon'
 ]]
 
 y = df["YieldTonHa"]

@@ -3,14 +3,14 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import KFold, cross_validate
 
-df = pd.read_csv("../training/final_data_with_spam_interpolated.csv")
+df = pd.read_csv("../training/final_data.csv")
 
 X = df[[
     "HarvestYear",
     "MWMT", "MCMT", "MAT", "MAP",
     "Potassium_g_kg_0-20_m", "Nitrogen_g_kg_0-20_m",
     "Phosphorus_g_kg_0-20_m", "OrganicCarbon_g_kg_0-20_m",
-    'interpolated_irr'
+    'Lat', 'Lon'
 ]]
 
 y = df["YieldTonHa"]
