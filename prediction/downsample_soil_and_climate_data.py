@@ -9,7 +9,7 @@ n_image = ee.Image("ISDASOIL/Africa/v1/nitrogen_total").select('mean_0_20').rena
 soc_image = ee.Image("ISDASOIL/Africa/v1/carbon_organic").select('mean_0_20').rename(['OrganicCarbon_g_kg_0-20_m'])
 
 region = k_image.geometry()
-scale = 50000
+scale = 100_000
 
 grid_proj = ee.Projection("EPSG:4326").atScale(scale)
 
