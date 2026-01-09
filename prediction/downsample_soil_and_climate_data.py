@@ -13,7 +13,7 @@ scale = 100_000
 
 grid_proj = ee.Projection("EPSG:4326").atScale(scale)
 
-years = [2030, 2040, 2050]
+years = [2020, 2030, 2040, 2050]
 scenarios = ["ssp245", "ssp585"]
 climate_images = []
 
